@@ -19,7 +19,7 @@ const { hide, extract, encrypt, decrypt } = require("./index.js");
 	const hiddenBase64Image = await hide(originalBase64Image, plaintext);
 	const extractedText = await extract(hiddenBase64Image);
 
-	// console.log("Original image:", originalBase64Image);
-	// console.log("Hidden image:", hiddenBase64Image);
-	// console.log("Extracted text:", extractedText, "\n");
+	console.log("Original image:", originalBase64Image);
+	console.log("Hidden image:", hiddenBase64Image);
+	console.log("Extracted text:", extractedText, "\n");
 })();
