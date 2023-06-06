@@ -1,32 +1,25 @@
 function RC4(key, plaintext) {
-	// RC4 Encryption and Decryption Modified
+	// RC4 Encryption and Decryption
 	let keyLength = key.length;
 	let S = [];
-	let K = [];
+	let ciphertext = "";
 
 	for (let i = 0; i < 256; i++) {
 		S[i] = i;
-		K[i] = key.charCodeAt(i % keyLength);
 	}
 
 	let j = 0;
 	for (let i = 0; i < 256; i++) {
-		j = (j + S[i] + K[i]) % 256;
-		let temp = S[i];
-		S[i] = S[j];
-		S[j] = temp;
+		j = (j + S[i] + key.charCodeAt(i % keyLength)) % 256;
+		[S[i], S[j]] = [S[j], S[i]];
 	}
 
-	let ciphertext = "";
 	let i = 0;
 	j = 0;
-
 	for (let k = 0; k < plaintext.length; k++) {
 		i = (i + 1) % 256;
 		j = (j + S[i]) % 256;
-		let temp = S[i];
-		S[i] = S[j];
-		S[j] = temp;
+		[S[i], S[j]] = [S[j], S[i]];
 		let t = (S[i] + S[j]) % 256;
 		let u = S[t];
 		ciphertext += String.fromCharCode(plaintext.charCodeAt(k) ^ u);
