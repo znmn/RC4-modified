@@ -6,20 +6,21 @@ function encrypt(plaintext) {
 	// random shift
 	let shift = Math.floor(Math.random() * 20) + 1;
 	// random secret key
-	let keyLength = Math.floor(Math.random() * (50 - 21 + 1)) + 21;
-	let key = randChar(keyLength);
+	let key = randChar(Math.floor(Math.random() * (50 - 21 + 1)) + 21);
 	// encrypt with RC4
 	let RC4Encrypted = RC4(key, plaintext);
 	// encrypt with shift
 	let ciphertext = shiftCipherEncrypt(RC4Encrypted, shift);
-	return btoa(JSON.stringify({ c: ciphertext, s: keyLength - shift, k: key }));
+	return btoa(JSON.stringify({ c: ciphertext, s: RC4(key, String(key.length - shift + ciphertext.length)), k: key }));
 }
 
 function decrypt(cipher) {
-	// decrypt with shift
+	// Destructuring JSON
 	let { c: ciphertext, k: key, s } = JSON.parse(atob(cipher));
-	let shift = key.length - s;
+	s = Number(RC4(key, s));
+	let shift = key.length - s + ciphertext.length;
 
+	// decrypt with shift
 	let ShiftDecrypted = shiftCipherDecrypt(ciphertext, shift);
 
 	// decrypt with RC4

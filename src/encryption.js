@@ -1,5 +1,5 @@
 function RC4(key, plaintext) {
-	// RC4 Encryption and Decryption
+	// RC4 Encryption and Decryption Modified
 	let keyLength = key.length;
 	let S = [];
 	let K = [];
